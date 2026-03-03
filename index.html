@@ -596,38 +596,31 @@
       <header class="header">
         <div class="brand">
           <div class="brand-logo" aria-hidden="true"></div>
-          <div>
-            <div class="brand-text-main">Elijah Paz</div>
-            <div class="brand-text-sub">Portfolio • Friends • Experiments</div>
-          </div>
         </div>
 
         <nav class="tabs" aria-label="Main navigation">
-          <button class="tab tab-active" data-page="jayden">
-            <span class="tab-label-main">Jayden&nbsp;Davis</span>
-            <span class="tab-label-sub">Concept lead</span>
-          </button>
-          <button class="tab" data-page="paxton">
-            <span class="tab-label-main">Paxton&nbsp;Masterson</span>
-            <span class="tab-label-sub">Chaos engineer</span>
-          </button>
-          <button class="tab" data-page="elijah">
+          <button class="tab tab-active" data-page="elijah">
             <span class="tab-label-main">Elijah&nbsp;Paz</span>
-            <span class="tab-label-sub">Host & dev</span>
+            <span class="tab-label-sub">Head dev</span>
           </button>
           <button class="tab" data-page="abdullah">
             <span class="tab-label-main">Abdullah&nbsp;Ghaleb</span>
-            <span class="tab-label-sub">Ideas in progress</span>
+            <span class="tab-label-sub">Co-head dev</span>
           </button>
-          <button class="tab" data-page="analytics">
-            <span class="tab-label-main">Analytics</span>
-            <span class="tab-label-sub">Admin only</span>
+          <button class="tab" data-page="paxton">
+            <span class="tab-label-main">Paxton&nbsp;Masterson</span>
+            <span class="tab-label-sub">Developer</span>
+          </button>
+          <button class="tab" data-page="jayden">
+            <span class="tab-label-main">Jayden&nbsp;Davis</span>
+            <span class="tab-label-sub">Tester</span>
           </button>
         </nav>
 
         <div class="header-meta">
-          <span class="status-dot"></span>
-          <span>Live&nbsp;Lab</span>
+          <button id="admin-open-btn" class="login-button" style="padding:5px 10px 6px;font-size:10px;">
+            Admin
+          </button>
         </div>
       </header>
 
@@ -635,60 +628,13 @@
         <section class="panel" id="content-left">
           <div class="hero-glow" aria-hidden="true"></div>
           <div class="panel-content">
-            <!-- Jayden page -->
-            <div class="page" data-page-id="jayden">
-              <div class="pill-row">
-                <div class="pill">
-                  <span class="pill-indicator"></span>
-                  <span>Jayden Davis • Under construction</span>
-                </div>
-                <span>v0.0.1-alpha</span>
-              </div>
-
-              <h1 class="page-title">Blueprints loading for Jayden.</h1>
-              <p class="page-subtitle">
-                This page is currently under development. Expect chaotic ideas, sharp aesthetics,
-                and possibly one too many late-night decisions very soon.
-              </p>
-
-              <div class="tag-row">
-                <span class="tag">Concept art</span>
-                <span class="tag">Experimental UI</span>
-                <span class="tag">Coming soon</span>
-              </div>
-            </div>
-
-            <!-- Paxton page -->
-            <div class="page page-hidden" data-page-id="paxton">
-              <div class="pill-row">
-                <div class="pill">
-                  <span class="pill-indicator"></span>
-                  <span>Paxton Masterson • Under construction</span>
-                </div>
-                <span>Chaos&nbsp;mode: off</span>
-              </div>
-
-              <h1 class="page-title">Paxton is currently debugging reality.</h1>
-              <p class="page-subtitle">
-                The Paxton zone is still spinning up servers, jokes, and possibly a physics engine.
-                Check back once the dust settles and the frames stop dropping.
-              </p>
-
-              <div class="tag-row">
-                <span class="tag">Game brain</span>
-                <span class="tag">Broken in style</span>
-                <span class="tag">Under development</span>
-              </div>
-            </div>
-
             <!-- Elijah page -->
-            <div class="page page-hidden" data-page-id="elijah">
+            <div class="page" data-page-id="elijah">
               <div class="pill-row">
                 <div class="pill">
                   <span class="pill-indicator"></span>
-                  <span>Elijah Paz • Host</span>
+                  <span>Elijah Paz • Head dev</span>
                 </div>
-                <span>ElijahPaz.space</span>
               </div>
 
               <h1 class="page-title">Welcome to the Elijah main tab.</h1>
@@ -709,10 +655,52 @@
               <div class="pill-row">
                 <div class="pill">
                   <span class="pill-indicator"></span>
-                  <span>Abdullah Ghaleb • In progress</span>
+                  <span>Abdullah Ghaleb • Co-head dev</span>
                 </div>
-                <span>Server: booting</span>
               </div>
+            <!-- Paxton page -->
+            <div class="page page-hidden" data-page-id="paxton">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Paxton Masterson • Dev</span>
+                </div>
+              </div>
+
+              <h1 class="page-title">Paxton is currently debugging reality.</h1>
+              <p class="page-subtitle">
+                The Paxton zone is still spinning up servers, jokes, and possibly a physics engine.
+                Check back once the dust settles and the frames stop dropping.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Game brain</span>
+                <span class="tag">Broken in style</span>
+                <span class="tag">Under development</span>
+              </div>
+            </div>
+
+            <!-- Jayden page -->
+            <div class="page page-hidden" data-page-id="jayden">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Jayden Davis • Tester</span>
+                </div>
+              </div>
+
+              <h1 class="page-title">Blueprints loading for Jayden.</h1>
+              <p class="page-subtitle">
+                This page is currently under development. Expect chaotic ideas, sharp aesthetics,
+                and possibly one too many late-night decisions very soon.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Concept art</span>
+                <span class="tag">Experimental UI</span>
+                <span class="tag">Coming soon</span>
+              </div>
+            </div>
 
               <h1 class="page-title">Abdullah&rsquo;s ideas are compiling.</h1>
               <p class="page-subtitle">
@@ -727,73 +715,71 @@
               </div>
             </div>
 
-            <!-- Analytics (admin) page -->
-            <div class="page page-hidden" data-page-id="analytics">
-              <div class="pill-row">
-                <div class="pill">
-                  <span class="pill-indicator"></span>
-                  <span>Admin analytics • Private</span>
-                </div>
-                <span>Restricted</span>
-              </div>
-
-              <h1 class="page-title">Traffic console.</h1>
-              <p class="page-subtitle">
-                Login as <strong>admin</strong> to see local analytics for this browser: page views,
-                top countries, and rough states pulled from basic geo-lookup.
-              </p>
-
-              <div id="analytics-locked" class="login-card">
-                <div class="login-title">Admin login</div>
-                <form id="admin-login-form" autocomplete="off">
-                  <div class="login-row">
-                    <label for="admin-username">User</label>
-                    <input id="admin-username" name="username" type="text" spellcheck="false" />
-                  </div>
-                  <div class="login-row">
-                    <label for="admin-password">Password</label>
-                    <input id="admin-password" name="password" type="password" />
-                  </div>
-                  <div class="login-actions">
-                    <button type="submit" class="login-button">Enter console</button>
-                  </div>
-                  <div id="login-error" class="login-error" style="display:none;"></div>
-                </form>
-              </div>
-
-              <div id="analytics-unlocked" class="analytics-hidden">
-                <div class="analytics-section">
-                  <div class="analytics-section-title">Overview</div>
-                  <div class="tag-row" id="analytics-overview">
-                    <!-- Filled by JS -->
-                  </div>
-                </div>
-
-                <div class="analytics-section">
-                  <div class="analytics-section-title">Most viewed pages</div>
-                  <div class="analytics-pills" id="analytics-pages">
-                    <!-- Filled by JS -->
-                  </div>
-                </div>
-
-                <div class="analytics-section">
-                  <div class="analytics-section-title">Countries</div>
-                  <div class="analytics-pills" id="analytics-countries">
-                    <!-- Filled by JS -->
-                  </div>
-                </div>
-
-                <div class="analytics-section">
-                  <div class="analytics-section-title">States / regions</div>
-                  <div class="analytics-pills" id="analytics-regions">
-                    <!-- Filled by JS -->
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </section>
       </main>
+
+      <div id="admin-panel" class="panel" style="margin-top:16px; display:none;">
+        <div class="panel-content">
+          <div class="pill-row">
+            <div class="pill">
+              <span class="pill-indicator"></span>
+              <span>Admin analytics • Private</span>
+            </div>
+            <button id="admin-close-btn" class="login-button" style="padding:5px 10px 6px;font-size:10px;">
+              Close
+            </button>
+          </div>
+
+          <div id="analytics-locked" class="login-card">
+            <div class="login-title">Admin login</div>
+            <form id="admin-login-form" autocomplete="off">
+              <div class="login-row">
+                <label for="admin-username">User</label>
+                <input id="admin-username" name="username" type="text" spellcheck="false" />
+              </div>
+              <div class="login-row">
+                <label for="admin-password">Password</label>
+                <input id="admin-password" name="password" type="password" />
+              </div>
+              <div class="login-actions">
+                <button type="submit" class="login-button">Enter console</button>
+              </div>
+              <div id="login-error" class="login-error" style="display:none;"></div>
+            </form>
+          </div>
+
+          <div id="analytics-unlocked" class="analytics-hidden">
+            <div class="analytics-section">
+              <div class="analytics-section-title">Overview</div>
+              <div class="tag-row" id="analytics-overview">
+                <!-- Filled by JS -->
+              </div>
+            </div>
+
+            <div class="analytics-section">
+              <div class="analytics-section-title">Most viewed pages</div>
+              <div class="analytics-pills" id="analytics-pages">
+                <!-- Filled by JS -->
+              </div>
+            </div>
+
+            <div class="analytics-section">
+              <div class="analytics-section-title">Countries</div>
+              <div class="analytics-pills" id="analytics-countries">
+                <!-- Filled by JS -->
+              </div>
+            </div>
+
+            <div class="analytics-section">
+              <div class="analytics-section-title">States / regions</div>
+              <div class="analytics-pills" id="analytics-regions">
+                <!-- Filled by JS -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <div id="cookie-banner" class="cookie-banner" style="display:none;">
         <div class="cookie-banner-text">
@@ -823,7 +809,7 @@
       const STORAGE_KEY_ADMIN = "ep_admin_logged_in";
       const STORAGE_KEY_COOKIE = "ep_cookie_consent";
 
-      let currentPageId = "jayden";
+      let currentPageId = "elijah";
       let geoInfo = null;
 
       function isAdminLoggedIn() {
@@ -892,10 +878,6 @@
           const isActive = tab.getAttribute("data-page") === pageId;
           tab.classList.toggle("tab-active", isActive);
         });
-
-        if (pageId === "analytics") {
-          updateAnalyticsVisibility();
-        }
       }
 
       TABS.forEach((tab) => {
@@ -1239,6 +1221,25 @@
         });
       }
 
+      const adminPanel = document.getElementById("admin-panel");
+      const adminOpenBtn = document.getElementById("admin-open-btn");
+      const adminCloseBtn = document.getElementById("admin-close-btn");
+
+      if (adminOpenBtn && adminPanel) {
+        adminOpenBtn.addEventListener("click", () => {
+          adminPanel.style.display = "block";
+          if (isAdminLoggedIn()) {
+            updateAnalyticsVisibility();
+          }
+        });
+      }
+
+      if (adminCloseBtn && adminPanel) {
+        adminCloseBtn.addEventListener("click", () => {
+          adminPanel.style.display = "none";
+        });
+      }
+
       const cookieBanner = document.getElementById("cookie-banner");
       const cookieAllowBtn = document.getElementById("cookie-allow-btn");
       const cookieDenyBtn = document.getElementById("cookie-deny-btn");
@@ -1246,7 +1247,7 @@
       function updateCookieBannerVisibility() {
         if (!cookieBanner) return;
         const status = getCookieConsentStatus();
-        if (status === "accepted" || status === "denied") {
+        if (status === "accepted") {
           cookieBanner.style.display = "none";
         } else {
           cookieBanner.style.display = "flex";
@@ -1268,8 +1269,10 @@
       if (cookieDenyBtn) {
         cookieDenyBtn.addEventListener("click", (e) => {
           e.preventDefault();
-          setCookieConsent("denied");
-          updateCookieBannerVisibility();
+          // Do NOT persist denial so the banner shows again on next visit.
+          if (cookieBanner) {
+            cookieBanner.style.display = "none";
+          }
         });
       }
 

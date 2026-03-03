@@ -3,21 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>404 • Lost in ElijahPaz.space</title>
+  <title>Lost in ElijahPaz.space</title>
   <style>
-    :root {
-      --bg: #03020a;
-      --accent: #8a5cff;
-      --accent-soft: rgba(138, 92, 255, 0.2);
-      --accent-strong: #c792ff;
-      --text: #f5f2ff;
-      --muted: #9b8fbf;
-      --danger: #ff5c7a;
-    }
-
-    *,
-    *::before,
-    *::after {
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -27,264 +15,53 @@
       min-height: 100vh;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top, #20143f 0, transparent 55%),
-        radial-gradient(circle at bottom, #160718 0, transparent 55%),
-        #03020a;
-      color: var(--text);
+      background: #05040a;
+      color: #f5f2ff;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
+      text-align: center;
     }
 
-    .card {
-      position: relative;
-      width: 100%;
-      max-width: 520px;
-      border-radius: 26px;
-      padding: 1px;
-      background:
-        radial-gradient(circle at top left, #8a5cff 0, transparent 55%),
-        radial-gradient(circle at bottom right, #ff5c7a 0, transparent 55%),
-        linear-gradient(135deg, #100b21, #03020a);
-      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.85);
-      overflow: hidden;
+    .wrap {
+      max-width: 480px;
     }
 
-    .card-inner {
-      border-radius: 25px;
-      background:
-        linear-gradient(145deg, rgba(8, 5, 20, 0.98), rgba(2, 2, 10, 0.98));
-      padding: 22px 22px 20px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .card-inner::before {
-      content: "";
-      position: absolute;
-      inset: -30%;
-      background:
-        radial-gradient(circle at 0% 0%, rgba(138, 92, 255, 0.25), transparent 60%),
-        radial-gradient(circle at 100% 100%, rgba(255, 92, 122, 0.2), transparent 60%);
-      opacity: 0.7;
-      mix-blend-mode: screen;
-      pointer-events: none;
-    }
-
-    .header {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 18px;
-      z-index: 1;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      padding: 4px 11px 5px;
-      border-radius: 999px;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      background: rgba(3, 2, 12, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: var(--muted);
-      backdrop-filter: blur(14px);
-    }
-
-    .badge-dot {
-      width: 9px;
-      height: 9px;
-      border-radius: 999px;
-      background: var(--danger);
-      box-shadow: 0 0 14px rgba(255, 92, 122, 0.9);
-      position: relative;
-    }
-
-    .badge-dot::after {
-      content: "";
-      position: absolute;
-      inset: -3px;
-      border-radius: inherit;
-      border: 1px solid rgba(255, 92, 122, 0.5);
-    }
-
-    .code {
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 13px;
-      color: var(--muted);
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 999px;
-      padding: 5px 10px;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-    }
-
-    .title {
-      position: relative;
-      font-size: 40px;
+    h1 {
+      font-size: 32px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       margin-bottom: 10px;
-      z-index: 1;
     }
 
-    .subtitle {
-      position: relative;
-      font-size: 15px;
-      color: var(--muted);
+    p {
+      font-size: 14px;
+      color: #9b8fbf;
       margin-bottom: 18px;
-      z-index: 1;
     }
 
-    .joke {
-      position: relative;
-      font-size: 13px;
-      color: rgba(245, 242, 255, 0.9);
-      margin-bottom: 20px;
-      z-index: 1;
-    }
-
-    .joke span {
-      color: var(--accent-strong);
-      font-weight: 600;
-    }
-
-    .actions {
-      position: relative;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      z-index: 1;
-    }
-
-    .btn {
-      border: none;
-      outline: none;
+    button {
       border-radius: 999px;
-      padding: 8px 18px 9px;
+      border: none;
+      padding: 8px 18px;
       font-size: 13px;
       font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: transform 0.12s ease, box-shadow 0.16s ease,
-        background 0.16s ease, color 0.16s ease, border-color 0.16s ease;
-    }
-
-    .btn-primary {
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 60%),
-        linear-gradient(135deg, #8a5cff, #c792ff);
+      background: linear-gradient(135deg, #8a5cff, #c792ff);
       color: #05040a;
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
-    }
-
-    .btn-primary:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.9);
-    }
-
-    .btn-ghost {
-      background: rgba(3, 2, 12, 0.85);
-      color: var(--muted);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-
-    .btn-ghost:hover {
-      transform: translateY(-1px);
-      border-color: rgba(199, 146, 255, 0.9);
-      color: var(--accent-strong);
-      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.06), transparent 70%);
-    }
-
-    .hint {
-      position: relative;
-      margin-top: 16px;
-      font-size: 11px;
-      color: rgba(155, 143, 191, 0.85);
-      z-index: 1;
-    }
-
-    .hint code {
-      font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
-        Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size: 10px;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 999px;
-      padding: 2px 7px;
-    }
-
-    @media (max-width: 540px) {
-      body {
-        padding: 14px;
-      }
-
-      .card-inner {
-        padding: 18px 16px 18px;
-      }
-
-      .title {
-        font-size: 30px;
-      }
-
-      .header {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-      }
     }
   </style>
 </head>
 <body>
-  <div class="card">
-    <div class="card-inner">
-      <div class="header">
-        <div class="badge">
-          <span class="badge-dot"></span>
-          <span>404 &bull; Page not deployed</span>
-        </div>
-        <div class="code">throw new Error("Whoops, wrong universe");</div>
-      </div>
-
-      <h1 class="title">Lost in ElijahPaz.space</h1>
-      <p class="subtitle">
-        You found a page that doesn&rsquo;t exist yet. Honestly, that&rsquo;s kind of impressive.
-      </p>
-
-      <p class="joke">
-        Think of this like a dev build: you&rsquo;ve reached a route that&rsquo;s still stuck in
-        <span>console.log(&quot;one day I&rsquo;ll be real&quot;)</span>.
-      </p>
-
-      <div class="actions">
-        <button class="btn btn-primary" onclick="goHome()">
-          &larr; Back to main tabs
-        </button>
-        <button class="btn btn-ghost" onclick="window.history.back()">
-          ⏪ Try the last page again
-        </button>
-      </div>
-
-      <p class="hint">
-        pro tip: if you did this on purpose, you&rsquo;re officially deep enough in the site to call
-        yourself a <code>powerUser</code>.
-      </p>
-    </div>
+  <div class="wrap">
+    <h1>Lost in ElijahPaz.space</h1>
+    <p>The page you were looking for doesn&rsquo;t exist.</p>
+    <button onclick="window.location.href='/'">
+      Back to main page
+    </button>
   </div>
-
-  <script>
-    function goHome() {
-      window.location.href = "/";
-    }
-  </script>
 </body>
 </html>

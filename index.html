@@ -549,6 +549,53 @@
       background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 70%);
     }
 
+    .privacy {
+      margin-top: 20px;
+      border-radius: 22px;
+      padding: 18px 20px 18px;
+      border: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(138, 92, 255, 0.13), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(255, 92, 122, 0.1), transparent 60%),
+        linear-gradient(145deg, rgba(12, 9, 28, 0.98), rgba(5, 4, 16, 0.98));
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+      max-height: 260px;
+      overflow: auto;
+      font-size: 11px;
+      line-height: 1.6;
+      color: rgba(230, 225, 255, 0.9);
+    }
+
+    .privacy h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 10px;
+      color: var(--muted);
+    }
+
+    .privacy h3 {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      margin-top: 10px;
+      margin-bottom: 4px;
+      color: var(--muted);
+    }
+
+    .privacy p {
+      margin-bottom: 6px;
+    }
+
+    .privacy ul {
+      margin: 4px 0 8px 16px;
+      padding: 0;
+    }
+
+    .privacy li {
+      margin-bottom: 4px;
+    }
+
     @media (max-width: 840px) {
       body {
         padding: 14px;
@@ -617,11 +664,7 @@
           </button>
         </nav>
 
-        <div class="header-meta">
-          <button id="admin-open-btn" class="login-button" style="padding:5px 10px 6px;font-size:10px;">
-            Admin
-          </button>
-        </div>
+        <div class="header-meta"></div>
       </header>
 
       <main class="main" aria-live="polite">
@@ -701,85 +744,61 @@
                 <span class="tag">Coming soon</span>
               </div>
             </div>
-
-              <h1 class="page-title">Abdullah&rsquo;s ideas are compiling.</h1>
-              <p class="page-subtitle">
-                This page is still wiring together thoughts, code, and maybe a tiny bit of chaos.
-                Once it passes the vibe check, it&rsquo;ll ship here first.
-              </p>
-
-              <div class="tag-row">
-                <span class="tag">Work in progress</span>
-                <span class="tag">Big plans</span>
-                <span class="tag">Stay tuned</span>
-              </div>
-            </div>
-
           </div>
         </section>
       </main>
 
-      <div id="admin-panel" class="panel" style="margin-top:16px; display:none;">
-        <div class="panel-content">
-          <div class="pill-row">
-            <div class="pill">
-              <span class="pill-indicator"></span>
-              <span>Admin analytics • Private</span>
-            </div>
-            <button id="admin-close-btn" class="login-button" style="padding:5px 10px 6px;font-size:10px;">
-              Close
-            </button>
-          </div>
+      <section id="privacy-policy" class="privacy">
+        <h2>Privacy policy for ElijahPaz.space</h2>
+        <p>
+          This site is a personal project run by Elijah Paz. It is not a business and is used for
+          experimentation, learning, and vibes. Still, here is exactly what happens with your data.
+        </p>
 
-          <div id="analytics-locked" class="login-card">
-            <div class="login-title">Admin login</div>
-            <form id="admin-login-form" autocomplete="off">
-              <div class="login-row">
-                <label for="admin-username">User</label>
-                <input id="admin-username" name="username" type="text" spellcheck="false" />
-              </div>
-              <div class="login-row">
-                <label for="admin-password">Password</label>
-                <input id="admin-password" name="password" type="password" />
-              </div>
-              <div class="login-actions">
-                <button type="submit" class="login-button">Enter console</button>
-              </div>
-              <div id="login-error" class="login-error" style="display:none;"></div>
-            </form>
-          </div>
+        <h3>What is collected</h3>
+        <p>When you visit the site, the following information can be collected:</p>
+        <ul>
+          <li>Page URL you visited and the tab you clicked.</li>
+          <li>The page you came from (referrer) if your browser sends it.</li>
+          <li>Basic browser/device info (user agent, platform, language, viewport size, screen size, color depth).</li>
+          <li>Technical details like CPU cores, approximate RAM, whether you appear online, and your Do Not Track setting.</li>
+          <li>Approximate location (country, region/state, city) and IP address from a geo‑lookup API.</li>
+          <li>Local timestamp (your browser&rsquo;s date/time) of the visit.</li>
+          <li>
+            <strong>Cookies only if you allow it:</strong> if you press &ldquo;Allow cookie logging&rdquo;,
+            your browser&rsquo;s <code>document.cookie</code> string may be logged for analytics until you clear
+            site data or revoke consent.
+          </li>
+        </ul>
 
-          <div id="analytics-unlocked" class="analytics-hidden">
-            <div class="analytics-section">
-              <div class="analytics-section-title">Overview</div>
-              <div class="tag-row" id="analytics-overview">
-                <!-- Filled by JS -->
-              </div>
-            </div>
+        <h3>How it is logged</h3>
+        <ul>
+          <li>Events are stored in your own browser using <code>localStorage</code> so Elijah can see local stats if needed.</li>
+          <li>The same event data is sent to a private Discord channel using a Discord webhook controlled only by Elijah.</li>
+          <li>No data is sold, shared, or used for advertising.</li>
+        </ul>
 
-            <div class="analytics-section">
-              <div class="analytics-section-title">Most viewed pages</div>
-              <div class="analytics-pills" id="analytics-pages">
-                <!-- Filled by JS -->
-              </div>
-            </div>
+        <h3>Cookies &amp; consent</h3>
+        <ul>
+          <li>Cookie values are <strong>never</strong> logged unless you explicitly click &ldquo;Allow cookie logging&rdquo; in the banner.</li>
+          <li>If you allow, that choice is remembered in <code>localStorage</code> until you clear your browser data.</li>
+          <li>If you click &ldquo;No thanks&rdquo;, cookies are not logged for that visit and you will be asked again next time.</li>
+        </ul>
 
-            <div class="analytics-section">
-              <div class="analytics-section-title">Countries</div>
-              <div class="analytics-pills" id="analytics-countries">
-                <!-- Filled by JS -->
-              </div>
-            </div>
+        <h3>Your choices</h3>
+        <ul>
+          <li>You can block or clear cookies and localStorage in your browser settings at any time.</li>
+          <li>You can use a VPN or privacy tools to hide or change your IP and location.</li>
+          <li>If you don&rsquo;t want any of this, simply don&rsquo;t use the site.</li>
+        </ul>
 
-            <div class="analytics-section">
-              <div class="analytics-section-title">States / regions</div>
-              <div class="analytics-pills" id="analytics-regions">
-                <!-- Filled by JS -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        <h3>Contact</h3>
+        <p>
+          If you have questions about this policy or want something removed, contact Elijah at
+          <a href="mailto:shakingly@gmail.com">shakingly@gmail.com</a> or through whatever channel
+          you got this link from (Discord / friends / school).
+        </p>
+      </section>
 
       <div id="cookie-banner" class="cookie-banner" style="display:none;">
         <div class="cookie-banner-text">
@@ -803,34 +822,11 @@
     (function () {
       const TABS = document.querySelectorAll(".tab");
       const PAGES = document.querySelectorAll(".page");
-      const ADMIN_USER = "admin";
-      const ADMIN_PASS = "12345";
       const STORAGE_KEY_VISITS = "ep_visit_logs";
-      const STORAGE_KEY_ADMIN = "ep_admin_logged_in";
       const STORAGE_KEY_COOKIE = "ep_cookie_consent";
 
       let currentPageId = "elijah";
       let geoInfo = null;
-
-      function isAdminLoggedIn() {
-        try {
-          return localStorage.getItem(STORAGE_KEY_ADMIN) === "true";
-        } catch {
-          return false;
-        }
-      }
-
-      function setAdminLoggedIn(value) {
-        try {
-          if (value) {
-            localStorage.setItem(STORAGE_KEY_ADMIN, "true");
-          } else {
-            localStorage.removeItem(STORAGE_KEY_ADMIN);
-          }
-        } catch {
-          // ignore
-        }
-      }
 
       function getCookieConsentStatus() {
         try {
@@ -849,20 +845,6 @@
           localStorage.setItem(STORAGE_KEY_COOKIE, status);
         } catch {
           // ignore
-        }
-      }
-
-      function updateAnalyticsVisibility() {
-        const locked = document.getElementById("analytics-locked");
-        const unlocked = document.getElementById("analytics-unlocked");
-        if (!locked || !unlocked) return;
-
-        const loggedIn = isAdminLoggedIn();
-        locked.style.display = loggedIn ? "none" : "";
-        unlocked.style.display = loggedIn ? "" : "none";
-
-        if (loggedIn) {
-          renderAnalytics();
         }
       }
 
@@ -1121,123 +1103,6 @@
         } catch (err) {
           console.error("Failed to send visit info to Discord", err);
         }
-      }
-
-      function renderAnalytics() {
-        const visits = getStoredVisits();
-        const overviewEl = document.getElementById("analytics-overview");
-        const pagesEl = document.getElementById("analytics-pages");
-        const countriesEl = document.getElementById("analytics-countries");
-        const regionsEl = document.getElementById("analytics-regions");
-
-        if (!overviewEl || !pagesEl || !countriesEl || !regionsEl) return;
-
-        const total = visits.length;
-        const byPage = {};
-        const byCountry = {};
-        const byRegion = {};
-
-        visits.forEach((v) => {
-          const page = v.pageId || "unknown";
-          const geo = v.geo || {};
-          const country = geo.country || "Unknown";
-          const region = geo.region || "Unknown";
-
-          byPage[page] = (byPage[page] || 0) + 1;
-          byCountry[country] = (byCountry[country] || 0) + 1;
-          byRegion[region] = (byRegion[region] || 0) + 1;
-        });
-
-        function topEntries(map, limit = 8) {
-          return Object.entries(map)
-            .sort((a, b) => b[1] - a[1])
-            .slice(0, limit);
-        }
-
-        overviewEl.innerHTML = "";
-        const uniqueCountries = Object.keys(byCountry).length || 0;
-        const uniqueRegions = Object.keys(byRegion).length || 0;
-
-        overviewEl.insertAdjacentHTML(
-          "beforeend",
-          `<span class="tag">Total events: <strong>${total}</strong></span>`
-        );
-        overviewEl.insertAdjacentHTML(
-          "beforeend",
-          `<span class="tag">Countries: <strong>${uniqueCountries}</strong></span>`
-        );
-        overviewEl.insertAdjacentHTML(
-          "beforeend",
-          `<span class="tag">Regions: <strong>${uniqueRegions}</strong></span>`
-        );
-
-        pagesEl.innerHTML = "";
-        topEntries(byPage).forEach(([page, count]) => {
-          pagesEl.insertAdjacentHTML(
-            "beforeend",
-            `<div class="analytics-pill"><strong>${page}</strong> • ${count} event${count === 1 ? "" : "s"}</div>`
-          );
-        });
-
-        countriesEl.innerHTML = "";
-        topEntries(byCountry).forEach(([country, count]) => {
-          countriesEl.insertAdjacentHTML(
-            "beforeend",
-            `<div class="analytics-pill"><strong>${country}</strong> • ${count}</div>`
-          );
-        });
-
-        regionsEl.innerHTML = "";
-        topEntries(byRegion).forEach(([region, count]) => {
-          regionsEl.insertAdjacentHTML(
-            "beforeend",
-            `<div class="analytics-pill"><strong>${region}</strong> • ${count}</div>`
-          );
-        });
-      }
-
-      const loginForm = document.getElementById("admin-login-form");
-      if (loginForm) {
-        loginForm.addEventListener("submit", (event) => {
-          event.preventDefault();
-          const userEl = document.getElementById("admin-username");
-          const passEl = document.getElementById("admin-password");
-          const errorEl = document.getElementById("login-error");
-
-          const user = userEl ? String(userEl.value || "").trim() : "";
-          const pass = passEl ? String(passEl.value || "") : "";
-
-          if (user === ADMIN_USER && pass === ADMIN_PASS) {
-            setAdminLoggedIn(true);
-            if (errorEl) {
-              errorEl.style.display = "none";
-              errorEl.textContent = "";
-            }
-            updateAnalyticsVisibility();
-          } else if (errorEl) {
-            errorEl.style.display = "block";
-            errorEl.textContent = "Invalid credentials. Try admin / 12345.";
-          }
-        });
-      }
-
-      const adminPanel = document.getElementById("admin-panel");
-      const adminOpenBtn = document.getElementById("admin-open-btn");
-      const adminCloseBtn = document.getElementById("admin-close-btn");
-
-      if (adminOpenBtn && adminPanel) {
-        adminOpenBtn.addEventListener("click", () => {
-          adminPanel.style.display = "block";
-          if (isAdminLoggedIn()) {
-            updateAnalyticsVisibility();
-          }
-        });
-      }
-
-      if (adminCloseBtn && adminPanel) {
-        adminCloseBtn.addEventListener("click", () => {
-          adminPanel.style.display = "none";
-        });
       }
 
       const cookieBanner = document.getElementById("cookie-banner");

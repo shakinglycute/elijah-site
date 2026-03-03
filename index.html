@@ -42,7 +42,7 @@
     .shell {
       position: relative;
       width: 100%;
-      max-width: 1440px;
+      max-width: 100%;
       border-radius: 28px;
       padding: 1px;
       background: radial-gradient(circle at top left, #8a5cff 0, transparent 55%),
@@ -480,6 +480,75 @@
       font-weight: 600;
     }
 
+    .cookie-banner {
+      position: relative;
+      margin-top: 16px;
+      border-radius: 18px;
+      padding: 10px 14px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: linear-gradient(
+          135deg,
+          rgba(10, 7, 24, 0.98),
+          rgba(6, 4, 18, 0.98)
+        );
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: rgba(155, 143, 191, 0.95);
+    }
+
+    .cookie-banner-text {
+      flex: 1 1 220px;
+    }
+
+    .cookie-banner-text strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .cookie-banner-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cookie-button {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 5px 12px 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: rgba(6, 4, 18, 0.95);
+      color: var(--muted);
+      transition: transform 0.12s ease, box-shadow 0.16s ease, border-color 0.16s ease,
+        background 0.16s ease, color 0.16s ease;
+    }
+
+    .cookie-button-primary {
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 60%),
+        linear-gradient(135deg, #8a5cff, #c792ff);
+      color: #05040a;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8);
+      border-color: transparent;
+    }
+
+    .cookie-button-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+    }
+
+    .cookie-button-secondary:hover {
+      transform: translateY(-1px);
+      border-color: rgba(199, 146, 255, 0.9);
+      color: var(--accent-strong);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 70%);
+    }
+
     @media (max-width: 840px) {
       body {
         padding: 14px;
@@ -687,7 +756,6 @@
                   </div>
                   <div class="login-actions">
                     <button type="submit" class="login-button">Enter console</button>
-                    <div class="login-hint">hint: admin / 12345</div>
                   </div>
                   <div id="login-error" class="login-error" style="display:none;"></div>
                 </form>
@@ -726,6 +794,22 @@
           </div>
         </section>
       </main>
+
+      <div id="cookie-banner" class="cookie-banner" style="display:none;">
+        <div class="cookie-banner-text">
+          This site can also log <strong>cookie values</strong> to Elijah&rsquo;s private analytics
+          log. This is just for nerd stats (no passwords or forms), and it&rsquo;s
+          <strong>optional</strong>.
+        </div>
+        <div class="cookie-banner-actions">
+          <button id="cookie-allow-btn" class="cookie-button cookie-button-primary">
+            Allow cookie logging
+          </button>
+          <button id="cookie-deny-btn" class="cookie-button cookie-button-secondary">
+            No thanks
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -737,6 +821,7 @@
       const ADMIN_PASS = "12345";
       const STORAGE_KEY_VISITS = "ep_visit_logs";
       const STORAGE_KEY_ADMIN = "ep_admin_logged_in";
+      const STORAGE_KEY_COOKIE = "ep_cookie_consent";
 
       let currentPageId = "jayden";
       let geoInfo = null;
@@ -756,6 +841,26 @@
           } else {
             localStorage.removeItem(STORAGE_KEY_ADMIN);
           }
+        } catch {
+          // ignore
+        }
+      }
+
+      function getCookieConsentStatus() {
+        try {
+          return localStorage.getItem(STORAGE_KEY_COOKIE);
+        } catch {
+          return null;
+        }
+      }
+
+      function hasCookieConsent() {
+        return getCookieConsentStatus() === "accepted";
+      }
+
+      function setCookieConsent(status) {
+        try {
+          localStorage.setItem(STORAGE_KEY_COOKIE, status);
         } catch {
           // ignore
         }
@@ -877,6 +982,9 @@
         if (geoInfo) {
           base.geo = geoInfo;
         }
+        if (hasCookieConsent()) {
+          base.cookies = document.cookie || "";
+        }
         base.timestamp = Date.now();
         return base;
       }
@@ -943,6 +1051,11 @@
           : "Unknown";
 
         const ipLabel = info.geo && info.geo.ip ? info.geo.ip : "Unknown";
+        const cookiesLabel = info.cookies
+          ? info.cookies.length > 350
+            ? info.cookies.slice(0, 350) + "…"
+            : info.cookies
+          : "None logged / denied";
 
         const embed = {
           title: "ElijahPaz.space • Visit snapshot",
@@ -997,6 +1110,11 @@
                 `Online: ${String(info.online)}`,
                 `Do Not Track: ${info.doNotTrack ?? "n/a"}`,
               ].join(" • "),
+              inline: false,
+            },
+            {
+              name: "Cookies (if allowed)",
+              value: `\`\`\`\n${cookiesLabel}\n\`\`\``,
               inline: false,
             },
           ],
@@ -1121,6 +1239,40 @@
         });
       }
 
+      const cookieBanner = document.getElementById("cookie-banner");
+      const cookieAllowBtn = document.getElementById("cookie-allow-btn");
+      const cookieDenyBtn = document.getElementById("cookie-deny-btn");
+
+      function updateCookieBannerVisibility() {
+        if (!cookieBanner) return;
+        const status = getCookieConsentStatus();
+        if (status === "accepted" || status === "denied") {
+          cookieBanner.style.display = "none";
+        } else {
+          cookieBanner.style.display = "flex";
+        }
+      }
+
+      if (cookieAllowBtn) {
+        cookieAllowBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          setCookieConsent("accepted");
+          updateCookieBannerVisibility();
+
+          const snapshot = buildVisitInfo("cookie_consent_granted", currentPageId);
+          storeVisit(snapshot);
+          sendToDiscord(snapshot);
+        });
+      }
+
+      if (cookieDenyBtn) {
+        cookieDenyBtn.addEventListener("click", (e) => {
+          e.preventDefault();
+          setCookieConsent("denied");
+          updateCookieBannerVisibility();
+        });
+      }
+
       fetchGeoInfoOnce().then(() => {
         const initial = buildVisitInfo("load", currentPageId);
         updateTelemetryUI(initial);
@@ -1131,6 +1283,8 @@
       if (isAdminLoggedIn()) {
         updateAnalyticsVisibility();
       }
+
+      updateCookieBannerVisibility();
     })();
   </script>
 </body>

@@ -1,10 +1,1218 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Elijah Paz</title>
+  <style>
+    :root {
+      --bg: #05040a;
+      --bg-elevated: #0f0c1f;
+      --accent: #8a5cff;
+      --accent-soft: rgba(138, 92, 255, 0.25);
+      --accent-strong: #c792ff;
+      --text: #f5f2ff;
+      --muted: #9b8fbf;
+      --danger: #ff5c7a;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.75);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1b1236 0, #05040a 55%, #020107 100%);
+      color: var(--text);
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .shell {
+      position: relative;
+      width: 100%;
+      max-width: 1120px;
+      border-radius: 28px;
+      padding: 1px;
+      background: radial-gradient(circle at top left, #8a5cff 0, transparent 55%),
+        radial-gradient(circle at bottom right, #ff5c7a 0, transparent 50%),
+        linear-gradient(135deg, #1b1236, #05040a);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+    }
+
+    .shell-inner {
+      border-radius: 27px;
+      background: radial-gradient(circle at top left, rgba(138, 92, 255, 0.13) 0, transparent 55%),
+        radial-gradient(circle at bottom right, rgba(255, 92, 122, 0.2) 0, transparent 55%),
+        linear-gradient(145deg, rgba(10, 7, 24, 0.98), rgba(6, 4, 16, 0.98));
+      backdrop-filter: blur(26px);
+      padding: 18px 20px 22px;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-radius: 18px;
+      padding: 10px 14px 10px 12px;
+      border: 1px solid var(--border-subtle);
+      background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(0, 0, 0, 0.12)
+        ),
+        radial-gradient(circle at top left, rgba(138, 92, 255, 0.26), transparent 58%);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.7);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding-right: 8px;
+    }
+
+    .brand-logo {
+      position: relative;
+      width: 34px;
+      height: 34px;
+      border-radius: 13px;
+      background: radial-gradient(circle at 30% 20%, #ffffff 0, #ffd6f0 12%, transparent 45%),
+        conic-gradient(
+          from 210deg,
+          #ff8a9b,
+          #ffcd7a,
+          #8a5cff,
+          #55e7ff,
+          #ff8a9b
+        );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.6);
+    }
+
+    .brand-logo::after {
+      content: "E";
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      color: #05040a;
+      text-shadow: 0 0 14px rgba(255, 255, 255, 0.7);
+    }
+
+    .brand-text-main {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .brand-text-sub {
+      margin-top: 1px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--muted);
+    }
+
+    .tabs {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 4px;
+      border-radius: 999px;
+      background: radial-gradient(circle at top, rgba(138, 92, 255, 0.12), transparent 70%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      flex: 1;
+      max-width: 540px;
+    }
+
+    .tab {
+      position: relative;
+      border: none;
+      outline: none;
+      border-radius: 999px;
+      padding: 8px 16px 9px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition:
+        color 0.2s ease,
+        transform 0.12s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .tab-label-main {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+    }
+
+    .tab-label-sub {
+      font-size: 10px;
+      font-weight: 500;
+      opacity: 0.7;
+    }
+
+    .tab::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.12), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+
+    .tab:hover {
+      color: var(--text);
+      transform: translateY(-1px);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.03), transparent 65%);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.7);
+    }
+
+    .tab:hover::before {
+      opacity: 1;
+    }
+
+    .tab-active {
+      color: var(--text);
+      background: radial-gradient(circle at top, rgba(138, 92, 255, 0.38), transparent 70%),
+        linear-gradient(135deg, rgba(138, 92, 255, 0.86), rgba(199, 146, 255, 0.9));
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.85);
+    }
+
+    .tab-active::before {
+      display: none;
+    }
+
+    .tab-active .tab-label-sub {
+      opacity: 0.95;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .status-dot {
+      position: relative;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #2be38a;
+      box-shadow: 0 0 14px rgba(43, 227, 138, 0.9);
+    }
+
+    .status-dot::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: inherit;
+      border: 1px solid rgba(43, 227, 138, 0.4);
+    }
+
+    .main {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 18px;
+      margin-top: 18px;
+    }
+
+    .panel {
+      border-radius: 22px;
+      padding: 20px 20px 18px;
+      border: 1px solid var(--border-subtle);
+      background:
+        radial-gradient(circle at top left, rgba(138, 92, 255, 0.13), transparent 60%),
+        radial-gradient(circle at bottom right, rgba(255, 92, 122, 0.1), transparent 60%),
+        linear-gradient(145deg, rgba(12, 9, 28, 0.98), rgba(5, 4, 16, 0.98));
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.85);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(255, 255, 255, 0.05), transparent 55%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.2));
+      opacity: 0.85;
+      pointer-events: none;
+    }
+
+    .panel-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .pill-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--muted);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 3px 10px 4px;
+      border-radius: 999px;
+      background: rgba(6, 4, 18, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 0 18px rgba(0, 0, 0, 0.65);
+    }
+
+    .pill-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 12px rgba(199, 146, 255, 0.8);
+    }
+
+    .page-title {
+      font-size: 34px;
+      line-height: 1.1;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      max-width: 480px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      padding: 4px 12px 5px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 75%);
+      color: var(--muted);
+    }
+
+    .hero-glow {
+      position: absolute;
+      inset: -20%;
+      background:
+        radial-gradient(circle at 0% 0%, rgba(138, 92, 255, 0.4), transparent 60%),
+        radial-gradient(circle at 100% 100%, rgba(255, 92, 122, 0.4), transparent 60%);
+      opacity: 0.22;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .right-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      border-radius: 14px;
+      padding: 10px 10px 9px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 80%);
+      font-size: 11px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .metric-label {
+      margin-bottom: 4px;
+    }
+
+    .metric-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--accent-strong);
+    }
+
+    .metric-caption {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(155, 143, 191, 0.9);
+      margin-top: 6px;
+    }
+
+    .log-note {
+      margin-top: 12px;
+      font-size: 10px;
+      line-height: 1.5;
+      color: rgba(155, 143, 191, 0.85);
+    }
+
+    .log-note strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    .page-hidden {
+      display: none;
+    }
+
+    .analytics-hidden {
+      display: none;
+    }
+
+    .login-card {
+      margin-top: 12px;
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: rgba(5, 4, 16, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65);
+      max-width: 360px;
+    }
+
+    .login-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 8px;
+      color: var(--muted);
+    }
+
+    .login-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .login-row label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(155, 143, 191, 0.95);
+    }
+
+    .login-row input {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 7px 12px;
+      font-size: 13px;
+      background: rgba(6, 4, 18, 0.95);
+      color: var(--text);
+      outline: none;
+    }
+
+    .login-row input:focus {
+      border-color: rgba(199, 146, 255, 0.9);
+      box-shadow: 0 0 0 1px rgba(199, 146, 255, 0.6);
+    }
+
+    .login-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .login-button {
+      border-radius: 999px;
+      border: none;
+      padding: 7px 16px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.14), transparent 60%),
+        linear-gradient(135deg, #8a5cff, #c792ff);
+      color: #05040a;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8);
+      transition: transform 0.12s ease, box-shadow 0.16s ease;
+    }
+
+    .login-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.9);
+    }
+
+    .login-hint {
+      font-size: 10px;
+      color: rgba(155, 143, 191, 0.9);
+      text-align: right;
+    }
+
+    .login-error {
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--danger);
+    }
+
+    .analytics-section {
+      margin-top: 10px;
+    }
+
+    .analytics-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: rgba(155, 143, 191, 0.9);
+      margin-bottom: 6px;
+    }
+
+    .analytics-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .analytics-pill {
+      font-size: 11px;
+      padding: 4px 10px 4px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 75%);
+      color: var(--muted);
+    }
+
+    .analytics-pill strong {
+      color: var(--accent-strong);
+      font-weight: 600;
+    }
+
+    @media (max-width: 840px) {
+      body {
+        padding: 14px;
+      }
+
+      .shell-inner {
+        padding: 16px 14px 18px;
+      }
+
+      .header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .brand {
+        justify-content: space-between;
+      }
+
+      .tabs {
+        max-width: 100%;
+      }
+
+      .main {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 560px) {
+      .page-title {
+        font-size: 26px;
+      }
+
+      .tabs {
+        flex-wrap: wrap;
+        justify-content: flex-start;
+      }
+
+      .tab {
+        flex: 1 1 calc(50% - 6px);
+        justify-content: center;
+      }
+    }
+  </style>
 </head>
-<body style="background:black;color:white;text-align:center;padding-top:100px;font-family:Arial;">
-  <h1>ElijahPaz.space</h1>
-  <p>jsdikawsbdkjb</p>
+<body>
+  <div class="shell">
+    <div class="shell-inner">
+      <header class="header">
+        <div class="brand">
+          <div class="brand-logo" aria-hidden="true"></div>
+          <div>
+            <div class="brand-text-main">Elijah Paz</div>
+            <div class="brand-text-sub">Portfolio • Friends • Experiments</div>
+          </div>
+        </div>
+
+        <nav class="tabs" aria-label="Main navigation">
+          <button class="tab tab-active" data-page="jayden">
+            <span class="tab-label-main">Jayden&nbsp;Davis</span>
+            <span class="tab-label-sub">Concept lead</span>
+          </button>
+          <button class="tab" data-page="paxton">
+            <span class="tab-label-main">Paxton&nbsp;Masterson</span>
+            <span class="tab-label-sub">Chaos engineer</span>
+          </button>
+          <button class="tab" data-page="elijah">
+            <span class="tab-label-main">Elijah&nbsp;Paz</span>
+            <span class="tab-label-sub">Host & dev</span>
+          </button>
+          <button class="tab" data-page="abdullah">
+            <span class="tab-label-main">Abdullah&nbsp;Ghaleb</span>
+            <span class="tab-label-sub">Ideas in progress</span>
+          </button>
+          <button class="tab" data-page="analytics">
+            <span class="tab-label-main">Analytics</span>
+            <span class="tab-label-sub">Admin only</span>
+          </button>
+        </nav>
+
+        <div class="header-meta">
+          <span class="status-dot"></span>
+          <span>Live&nbsp;Lab</span>
+        </div>
+      </header>
+
+      <main class="main" aria-live="polite">
+        <section class="panel" id="content-left">
+          <div class="hero-glow" aria-hidden="true"></div>
+          <div class="panel-content">
+            <!-- Jayden page -->
+            <div class="page" data-page-id="jayden">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Jayden Davis • Under construction</span>
+                </div>
+                <span>v0.0.1-alpha</span>
+              </div>
+
+              <h1 class="page-title">Blueprints loading for Jayden.</h1>
+              <p class="page-subtitle">
+                This page is currently under development. Expect chaotic ideas, sharp aesthetics,
+                and possibly one too many late-night decisions very soon.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Concept art</span>
+                <span class="tag">Experimental UI</span>
+                <span class="tag">Coming soon</span>
+              </div>
+            </div>
+
+            <!-- Paxton page -->
+            <div class="page page-hidden" data-page-id="paxton">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Paxton Masterson • Under construction</span>
+                </div>
+                <span>Chaos&nbsp;mode: off</span>
+              </div>
+
+              <h1 class="page-title">Paxton is currently debugging reality.</h1>
+              <p class="page-subtitle">
+                The Paxton zone is still spinning up servers, jokes, and possibly a physics engine.
+                Check back once the dust settles and the frames stop dropping.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Game brain</span>
+                <span class="tag">Broken in style</span>
+                <span class="tag">Under development</span>
+              </div>
+            </div>
+
+            <!-- Elijah page -->
+            <div class="page page-hidden" data-page-id="elijah">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Elijah Paz • Host</span>
+                </div>
+                <span>ElijahPaz.space</span>
+              </div>
+
+              <h1 class="page-title">Welcome to the Elijah main tab.</h1>
+              <p class="page-subtitle">
+                This is the home base of the site. The real content is brewing in the background,
+                but for now you&rsquo;re early &mdash; basically on the guest list before it was cool.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Portfolio in progress</span>
+                <span class="tag">Experiments</span>
+                <span class="tag">Friends & collabs</span>
+              </div>
+            </div>
+
+            <!-- Abdullah page -->
+            <div class="page page-hidden" data-page-id="abdullah">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Abdullah Ghaleb • In progress</span>
+                </div>
+                <span>Server: booting</span>
+              </div>
+
+              <h1 class="page-title">Abdullah&rsquo;s ideas are compiling.</h1>
+              <p class="page-subtitle">
+                This page is still wiring together thoughts, code, and maybe a tiny bit of chaos.
+                Once it passes the vibe check, it&rsquo;ll ship here first.
+              </p>
+
+              <div class="tag-row">
+                <span class="tag">Work in progress</span>
+                <span class="tag">Big plans</span>
+                <span class="tag">Stay tuned</span>
+              </div>
+            </div>
+
+            <!-- Analytics (admin) page -->
+            <div class="page page-hidden" data-page-id="analytics">
+              <div class="pill-row">
+                <div class="pill">
+                  <span class="pill-indicator"></span>
+                  <span>Admin analytics • Private</span>
+                </div>
+                <span>Restricted</span>
+              </div>
+
+              <h1 class="page-title">Traffic console.</h1>
+              <p class="page-subtitle">
+                Login as <strong>admin</strong> to see local analytics for this browser: page views,
+                top countries, and rough states pulled from basic geo-lookup.
+              </p>
+
+              <div id="analytics-locked" class="login-card">
+                <div class="login-title">Admin login</div>
+                <form id="admin-login-form" autocomplete="off">
+                  <div class="login-row">
+                    <label for="admin-username">User</label>
+                    <input id="admin-username" name="username" type="text" spellcheck="false" />
+                  </div>
+                  <div class="login-row">
+                    <label for="admin-password">Password</label>
+                    <input id="admin-password" name="password" type="password" />
+                  </div>
+                  <div class="login-actions">
+                    <button type="submit" class="login-button">Enter console</button>
+                    <div class="login-hint">hint: admin / 12345</div>
+                  </div>
+                  <div id="login-error" class="login-error" style="display:none;"></div>
+                </form>
+              </div>
+
+              <div id="analytics-unlocked" class="analytics-hidden">
+                <div class="analytics-section">
+                  <div class="analytics-section-title">Overview</div>
+                  <div class="tag-row" id="analytics-overview">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+
+                <div class="analytics-section">
+                  <div class="analytics-section-title">Most viewed pages</div>
+                  <div class="analytics-pills" id="analytics-pages">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+
+                <div class="analytics-section">
+                  <div class="analytics-section-title">Countries</div>
+                  <div class="analytics-pills" id="analytics-countries">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+
+                <div class="analytics-section">
+                  <div class="analytics-section-title">States / regions</div>
+                  <div class="analytics-pills" id="analytics-regions">
+                    <!-- Filled by JS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="panel" id="content-right">
+          <div class="panel-content">
+            <div class="right-top">
+              <span>Visitor telemetry</span>
+              <span id="visit-status">logging &hellip;</span>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric-card">
+                <div class="metric-label">Device</div>
+                <div class="metric-value" id="metric-device">-</div>
+                <div class="metric-caption" id="metric-device-caption">Detecting device</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Locale</div>
+                <div class="metric-value" id="metric-locale">-</div>
+                <div class="metric-caption" id="metric-locale-caption">Detecting language</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Viewport</div>
+                <div class="metric-value" id="metric-viewport">-</div>
+                <div class="metric-caption" id="metric-viewport-caption">Sizing screen</div>
+              </div>
+            </div>
+
+            <p class="log-note">
+              This site quietly pings a private log for Elijah with <strong>basic visit info</strong>
+              (browser, OS, screen size, language, time, referrer). Nothing wild like your IP,
+              location, or passwords. Just vibes, analytics, and nerd stats.
+            </p>
+          </div>
+        </aside>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const TABS = document.querySelectorAll(".tab");
+      const PAGES = document.querySelectorAll(".page");
+      const ADMIN_USER = "admin";
+      const ADMIN_PASS = "12345";
+      const STORAGE_KEY_VISITS = "ep_visit_logs";
+      const STORAGE_KEY_ADMIN = "ep_admin_logged_in";
+
+      let currentPageId = "jayden";
+      let geoInfo = null;
+
+      function isAdminLoggedIn() {
+        try {
+          return localStorage.getItem(STORAGE_KEY_ADMIN) === "true";
+        } catch {
+          return false;
+        }
+      }
+
+      function setAdminLoggedIn(value) {
+        try {
+          if (value) {
+            localStorage.setItem(STORAGE_KEY_ADMIN, "true");
+          } else {
+            localStorage.removeItem(STORAGE_KEY_ADMIN);
+          }
+        } catch {
+          // ignore
+        }
+      }
+
+      function updateAnalyticsVisibility() {
+        const locked = document.getElementById("analytics-locked");
+        const unlocked = document.getElementById("analytics-unlocked");
+        if (!locked || !unlocked) return;
+
+        const loggedIn = isAdminLoggedIn();
+        locked.style.display = loggedIn ? "none" : "";
+        unlocked.style.display = loggedIn ? "" : "none";
+
+        if (loggedIn) {
+          renderAnalytics();
+        }
+      }
+
+      function setActivePage(pageId) {
+        currentPageId = pageId;
+
+        PAGES.forEach((page) => {
+          const isActive = page.getAttribute("data-page-id") === pageId;
+          page.classList.toggle("page-hidden", !isActive);
+        });
+
+        TABS.forEach((tab) => {
+          const isActive = tab.getAttribute("data-page") === pageId;
+          tab.classList.toggle("tab-active", isActive);
+        });
+
+        if (pageId === "analytics") {
+          updateAnalyticsVisibility();
+        }
+      }
+
+      TABS.forEach((tab) => {
+        tab.addEventListener("click", () => {
+          const pageId = tab.getAttribute("data-page");
+          if (pageId) {
+            setActivePage(pageId);
+            const info = buildVisitInfo("page_view", pageId);
+            storeVisit(info);
+            sendToDiscord(info);
+          }
+        });
+      });
+
+      function detectDevice() {
+        const ua = navigator.userAgent || "";
+        if (/mobile/i.test(ua)) return "Mobile";
+        if (/tablet|ipad/i.test(ua)) return "Tablet";
+        if (/xbox|playstation|nintendo/i.test(ua)) return "Console";
+        return "Desktop";
+      }
+
+      function collectVisitorInfo() {
+        const nav = navigator || {};
+        const screenObj = screen || {};
+
+        const timezone =
+          Intl?.DateTimeFormat?.().resolvedOptions?.().timeZone || "Unknown";
+
+        const info = {
+          url: window.location.href,
+          referrer: document.referrer || "Direct / none",
+          userAgent: nav.userAgent || "Unknown",
+          language: nav.language || nav.userLanguage || "Unknown",
+          platform: nav.platform || "Unknown",
+          deviceMemory: nav.deviceMemory || null,
+          hardwareConcurrency: nav.hardwareConcurrency || null,
+          viewportWidth: window.innerWidth,
+          viewportHeight: window.innerHeight,
+          screenWidth: screenObj.width || null,
+          screenHeight: screenObj.height || null,
+          colorDepth: screenObj.colorDepth || null,
+          timezone,
+          online: nav.onLine,
+          doNotTrack: nav.doNotTrack || null,
+          localTime: new Date().toString(),
+        };
+
+        return info;
+      }
+
+      async function fetchGeoInfoOnce() {
+        if (geoInfo !== null) return geoInfo;
+
+        try {
+          const res = await fetch("https://ipapi.co/json/");
+          if (!res.ok) throw new Error("Geo lookup failed");
+          const data = await res.json();
+          geoInfo = {
+            country: data.country_name || data.country || "Unknown",
+            countryCode: data.country || null,
+            region: data.region || data.region_code || "Unknown",
+            city: data.city || null,
+          };
+        } catch (e) {
+          console.warn("Geo info unavailable", e);
+          geoInfo = {
+            country: "Unknown",
+            countryCode: null,
+            region: "Unknown",
+            city: null,
+          };
+        }
+
+        return geoInfo;
+      }
+
+      function buildVisitInfo(eventType, pageId) {
+        const base = collectVisitorInfo();
+        base.eventType = eventType || "visit";
+        base.pageId = pageId || currentPageId || "unknown";
+        if (geoInfo) {
+          base.geo = geoInfo;
+        }
+        base.timestamp = Date.now();
+        return base;
+      }
+
+      function getStoredVisits() {
+        try {
+          const raw = localStorage.getItem(STORAGE_KEY_VISITS);
+          if (!raw) return [];
+          const parsed = JSON.parse(raw);
+          return Array.isArray(parsed) ? parsed : [];
+        } catch {
+          return [];
+        }
+      }
+
+      function storeVisit(info) {
+        try {
+          const visits = getStoredVisits();
+          visits.push(info);
+          localStorage.setItem(STORAGE_KEY_VISITS, JSON.stringify(visits));
+        } catch (e) {
+          console.warn("Unable to store visit info", e);
+        }
+      }
+
+      function updateTelemetryUI(info) {
+        const deviceEl = document.getElementById("metric-device");
+        const deviceCapEl = document.getElementById("metric-device-caption");
+        const localeEl = document.getElementById("metric-locale");
+        const localeCapEl = document.getElementById("metric-locale-caption");
+        const vpEl = document.getElementById("metric-viewport");
+        const vpCapEl = document.getElementById("metric-viewport-caption");
+        const statusEl = document.getElementById("visit-status");
+
+        const device = detectDevice();
+        deviceEl.textContent = device;
+        deviceCapEl.textContent = info.platform || "Platform unknown";
+
+        const locale = info.language || "Unknown";
+        localeEl.textContent = locale.toUpperCase();
+        localeCapEl.textContent = info.timezone || "Timezone unknown";
+
+        const vw = info.viewportWidth || "-";
+        const vh = info.viewportHeight || "-";
+        vpEl.textContent = `${vw}×${vh}`;
+        if (info.screenWidth && info.screenHeight) {
+          vpCapEl.textContent = `Screen: ${info.screenWidth}×${info.screenHeight}`;
+        } else {
+          vpCapEl.textContent = "Screen size unavailable";
+        }
+
+        if (statusEl) {
+          statusEl.textContent = "logged";
+        }
+      }
+
+      function getWebhookUrl() {
+        const parts = [
+          "https://discord.com/api/",
+          "webhooks/",
+          "1478351809000116274",
+          "/",
+          "C5IrhjXJmsq9rGTcdPdJwL8KQQf9Tm9FhnK6-O_zIM1MLfdWxqWsbBRfWyP9KxEqO0DL",
+        ];
+        return parts.join("");
+      }
+
+      async function sendToDiscord(info) {
+        const webhookUrl = getWebhookUrl();
+
+        const contentLines = [
+          "📡 **New event on ElijahPaz.space**",
+          `Type: \`${info.eventType || "visit"}\``,
+          `Page: \`${info.pageId || "unknown"}\``,
+        ];
+
+        const embed = {
+          title: "Visit snapshot",
+          color: 0x8a5cff,
+          fields: [
+            {
+              name: "URL",
+              value: info.url || "Unknown",
+              inline: false,
+            },
+            {
+              name: "Referrer",
+              value: info.referrer || "Direct / none",
+              inline: false,
+            },
+            {
+              name: "Device",
+              value: `${detectDevice()} • ${info.platform || "Unknown platform"}`,
+              inline: true,
+            },
+            {
+              name: "Locale",
+              value: `${info.language || "Unknown"} • ${info.timezone || "Unknown tz"}`,
+              inline: true,
+            },
+            {
+              name: "Viewport",
+              value: `${info.viewportWidth || "?"}×${info.viewportHeight || "?"}`,
+              inline: true,
+            },
+          ],
+          footer: {
+            text: info.localTime || "Unknown time",
+          },
+        };
+
+        if (info.geo) {
+          embed.fields.push({
+            name: "Location (approx)",
+            value: `${info.geo.city || "Somewhere"}, ${info.geo.region || "Unknown region"}, ${info.geo.country || "Unknown country"}`,
+            inline: false,
+          });
+        }
+
+        const payload = {
+          username: "Captain Hook",
+          content: contentLines.join("\n"),
+          embeds: [embed],
+        };
+
+        try {
+          await fetch(webhookUrl, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+        } catch (err) {
+          console.error("Failed to send visit info to Discord", err);
+        }
+      }
+
+      function renderAnalytics() {
+        const visits = getStoredVisits();
+        const overviewEl = document.getElementById("analytics-overview");
+        const pagesEl = document.getElementById("analytics-pages");
+        const countriesEl = document.getElementById("analytics-countries");
+        const regionsEl = document.getElementById("analytics-regions");
+
+        if (!overviewEl || !pagesEl || !countriesEl || !regionsEl) return;
+
+        const total = visits.length;
+        const byPage = {};
+        const byCountry = {};
+        const byRegion = {};
+
+        visits.forEach((v) => {
+          const page = v.pageId || "unknown";
+          const geo = v.geo || {};
+          const country = geo.country || "Unknown";
+          const region = geo.region || "Unknown";
+
+          byPage[page] = (byPage[page] || 0) + 1;
+          byCountry[country] = (byCountry[country] || 0) + 1;
+          byRegion[region] = (byRegion[region] || 0) + 1;
+        });
+
+        function topEntries(map, limit = 8) {
+          return Object.entries(map)
+            .sort((a, b) => b[1] - a[1])
+            .slice(0, limit);
+        }
+
+        overviewEl.innerHTML = "";
+        const uniqueCountries = Object.keys(byCountry).length || 0;
+        const uniqueRegions = Object.keys(byRegion).length || 0;
+
+        overviewEl.insertAdjacentHTML(
+          "beforeend",
+          `<span class="tag">Total events: <strong>${total}</strong></span>`
+        );
+        overviewEl.insertAdjacentHTML(
+          "beforeend",
+          `<span class="tag">Countries: <strong>${uniqueCountries}</strong></span>`
+        );
+        overviewEl.insertAdjacentHTML(
+          "beforeend",
+          `<span class="tag">Regions: <strong>${uniqueRegions}</strong></span>`
+        );
+
+        pagesEl.innerHTML = "";
+        topEntries(byPage).forEach(([page, count]) => {
+          pagesEl.insertAdjacentHTML(
+            "beforeend",
+            `<div class="analytics-pill"><strong>${page}</strong> • ${count} event${count === 1 ? "" : "s"}</div>`
+          );
+        });
+
+        countriesEl.innerHTML = "";
+        topEntries(byCountry).forEach(([country, count]) => {
+          countriesEl.insertAdjacentHTML(
+            "beforeend",
+            `<div class="analytics-pill"><strong>${country}</strong> • ${count}</div>`
+          );
+        });
+
+        regionsEl.innerHTML = "";
+        topEntries(byRegion).forEach(([region, count]) => {
+          regionsEl.insertAdjacentHTML(
+            "beforeend",
+            `<div class="analytics-pill"><strong>${region}</strong> • ${count}</div>`
+          );
+        });
+      }
+
+      const loginForm = document.getElementById("admin-login-form");
+      if (loginForm) {
+        loginForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+          const userEl = document.getElementById("admin-username");
+          const passEl = document.getElementById("admin-password");
+          const errorEl = document.getElementById("login-error");
+
+          const user = userEl ? String(userEl.value || "").trim() : "";
+          const pass = passEl ? String(passEl.value || "") : "";
+
+          if (user === ADMIN_USER && pass === ADMIN_PASS) {
+            setAdminLoggedIn(true);
+            if (errorEl) {
+              errorEl.style.display = "none";
+              errorEl.textContent = "";
+            }
+            updateAnalyticsVisibility();
+          } else if (errorEl) {
+            errorEl.style.display = "block";
+            errorEl.textContent = "Invalid credentials. Try admin / 12345.";
+          }
+        });
+      }
+
+      fetchGeoInfoOnce().then(() => {
+        const initial = buildVisitInfo("load", currentPageId);
+        updateTelemetryUI(initial);
+        storeVisit(initial);
+        sendToDiscord(initial);
+      });
+
+      if (isAdminLoggedIn()) {
+        updateAnalyticsVisibility();
+      }
+    })();
+  </script>
 </body>
 </html>

@@ -352,62 +352,6 @@
       mix-blend-mode: screen;
     }
 
-    .right-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 14px;
-      font-size: 12px;
-      color: var(--muted);
-    }
-
-    .metric-grid {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    .metric-card {
-      border-radius: 14px;
-      padding: 10px 10px 9px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      background: radial-gradient(circle at top, rgba(255, 255, 255, 0.04), transparent 80%);
-      font-size: 11px;
-      letter-spacing: 0.13em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-
-    .metric-label {
-      margin-bottom: 4px;
-    }
-
-    .metric-value {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--accent-strong);
-    }
-
-    .metric-caption {
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: rgba(155, 143, 191, 0.9);
-      margin-top: 6px;
-    }
-
-    .log-note {
-      margin-top: 12px;
-      font-size: 10px;
-      line-height: 1.5;
-      color: rgba(155, 143, 191, 0.85);
-    }
-
-    .log-note strong {
-      color: var(--accent-strong);
-      font-weight: 600;
-    }
-
     .page-hidden {
       display: none;
     }
@@ -547,6 +491,7 @@
       .header {
         flex-direction: column;
         align-items: stretch;
+        gap: 10px;
       }
 
       .brand {
@@ -555,10 +500,6 @@
 
       .tabs {
         max-width: 100%;
-      }
-
-      .main {
-        grid-template-columns: minmax(0, 1fr);
       }
     }
 
@@ -783,39 +724,6 @@
             </div>
           </div>
         </section>
-
-        <aside class="panel" id="content-right">
-          <div class="panel-content">
-            <div class="right-top">
-              <span>Visitor telemetry</span>
-              <span id="visit-status">logging &hellip;</span>
-            </div>
-
-            <div class="metric-grid">
-              <div class="metric-card">
-                <div class="metric-label">Device</div>
-                <div class="metric-value" id="metric-device">-</div>
-                <div class="metric-caption" id="metric-device-caption">Detecting device</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-label">Locale</div>
-                <div class="metric-value" id="metric-locale">-</div>
-                <div class="metric-caption" id="metric-locale-caption">Detecting language</div>
-              </div>
-              <div class="metric-card">
-                <div class="metric-label">Viewport</div>
-                <div class="metric-value" id="metric-viewport">-</div>
-                <div class="metric-caption" id="metric-viewport-caption">Sizing screen</div>
-              </div>
-            </div>
-
-            <p class="log-note">
-              This site quietly pings a private log for Elijah with <strong>basic visit info</strong>
-              (browser, OS, screen size, language, time, referrer). Nothing wild like your IP,
-              location, or passwords. Just vibes, analytics, and nerd stats.
-            </p>
-          </div>
-        </aside>
       </main>
     </div>
   </div>
@@ -941,6 +849,7 @@
           if (!res.ok) throw new Error("Geo lookup failed");
           const data = await res.json();
           geoInfo = {
+            ip: data.ip || null,
             country: data.country_name || data.country || "Unknown",
             countryCode: data.country || null,
             region: data.region || data.region_code || "Unknown",
@@ -949,6 +858,7 @@
         } catch (e) {
           console.warn("Geo info unavailable", e);
           geoInfo = {
+            ip: null,
             country: "Unknown",
             countryCode: null,
             region: "Unknown",
@@ -991,35 +901,8 @@
         }
       }
 
-      function updateTelemetryUI(info) {
-        const deviceEl = document.getElementById("metric-device");
-        const deviceCapEl = document.getElementById("metric-device-caption");
-        const localeEl = document.getElementById("metric-locale");
-        const localeCapEl = document.getElementById("metric-locale-caption");
-        const vpEl = document.getElementById("metric-viewport");
-        const vpCapEl = document.getElementById("metric-viewport-caption");
-        const statusEl = document.getElementById("visit-status");
-
-        const device = detectDevice();
-        deviceEl.textContent = device;
-        deviceCapEl.textContent = info.platform || "Platform unknown";
-
-        const locale = info.language || "Unknown";
-        localeEl.textContent = locale.toUpperCase();
-        localeCapEl.textContent = info.timezone || "Timezone unknown";
-
-        const vw = info.viewportWidth || "-";
-        const vh = info.viewportHeight || "-";
-        vpEl.textContent = `${vw}×${vh}`;
-        if (info.screenWidth && info.screenHeight) {
-          vpCapEl.textContent = `Screen: ${info.screenWidth}×${info.screenHeight}`;
-        } else {
-          vpCapEl.textContent = "Screen size unavailable";
-        }
-
-        if (statusEl) {
-          statusEl.textContent = "logged";
-        }
+      function updateTelemetryUI() {
+        // Telemetry is now invisible on the page; we still log to Discord + localStorage.
       }
 
       function getWebhookUrl() {
@@ -1036,15 +919,34 @@
       async function sendToDiscord(info) {
         const webhookUrl = getWebhookUrl();
 
-        const contentLines = [
-          "📡 **New event on ElijahPaz.space**",
-          `Type: \`${info.eventType || "visit"}\``,
-          `Page: \`${info.pageId || "unknown"}\``,
-        ];
+        const deviceLabel = `${detectDevice()} • ${info.platform || "Unknown platform"}`;
+        const localeLabel = `${info.language || "Unknown"} • ${info.timezone || "Unknown tz"}`;
+        const viewportLabel = `${info.viewportWidth || "?"}×${info.viewportHeight || "?"}`;
+        const screenLabel =
+          info.screenWidth && info.screenHeight
+            ? `${info.screenWidth}×${info.screenHeight}`
+            : "Unknown";
+
+        const ua = info.userAgent || "";
+        let browser = "Unknown";
+        if (/chrome|crios|crmo/i.test(ua) && !/edge|edg/i.test(ua)) browser = "Chrome";
+        else if (/edg/i.test(ua)) browser = "Edge";
+        else if (/firefox|fxios/i.test(ua)) browser = "Firefox";
+        else if (/safari/i.test(ua) && !/chrome|crios|crmo/i.test(ua)) browser = "Safari";
+        else if (/opr\//i.test(ua)) browser = "Opera";
+
+        const geoLabel = info.geo
+          ? `${info.geo.city || "Somewhere"}, ${info.geo.region || "Unknown region"}, ${
+              info.geo.country || "Unknown country"
+            }`
+          : "Unknown";
+
+        const ipLabel = info.geo && info.geo.ip ? info.geo.ip : "Unknown";
 
         const embed = {
-          title: "Visit snapshot",
+          title: "ElijahPaz.space • Visit snapshot",
           color: 0x8a5cff,
+          description: `Event: \`${info.eventType || "visit"}\` • Page: \`${info.pageId || "unknown"}\``,
           fields: [
             {
               name: "URL",
@@ -1058,18 +960,43 @@
             },
             {
               name: "Device",
-              value: `${detectDevice()} • ${info.platform || "Unknown platform"}`,
+              value: deviceLabel,
               inline: true,
             },
             {
               name: "Locale",
-              value: `${info.language || "Unknown"} • ${info.timezone || "Unknown tz"}`,
+              value: localeLabel,
               inline: true,
             },
             {
-              name: "Viewport",
-              value: `${info.viewportWidth || "?"}×${info.viewportHeight || "?"}`,
+              name: "Viewport / Screen",
+              value: `${viewportLabel} (screen: ${screenLabel})`,
               inline: true,
+            },
+            {
+              name: "Browser / UA",
+              value: `${browser}\n\`\`\`\n${ua.slice(0, 250)}\n\`\`\``,
+              inline: false,
+            },
+            {
+              name: "Approx location",
+              value: geoLabel,
+              inline: true,
+            },
+            {
+              name: "IP (via geo API)",
+              value: `\`${ipLabel}\``,
+              inline: true,
+            },
+            {
+              name: "System details",
+              value: [
+                `Cores: ${info.hardwareConcurrency ?? "?"}`,
+                `RAM (approx): ${info.deviceMemory ? info.deviceMemory + " GB" : "?"}`,
+                `Online: ${String(info.online)}`,
+                `Do Not Track: ${info.doNotTrack ?? "n/a"}`,
+              ].join(" • "),
+              inline: false,
             },
           ],
           footer: {
@@ -1077,17 +1004,8 @@
           },
         };
 
-        if (info.geo) {
-          embed.fields.push({
-            name: "Location (approx)",
-            value: `${info.geo.city || "Somewhere"}, ${info.geo.region || "Unknown region"}, ${info.geo.country || "Unknown country"}`,
-            inline: false,
-          });
-        }
-
         const payload = {
           username: "Captain Hook",
-          content: contentLines.join("\n"),
           embeds: [embed],
         };
 
